@@ -1,0 +1,120 @@
+private List<Jarmu> jarmuvek;
+        
+
+
+        private void ButtonHozzaad_Click(object sender, RoutedEventArgs e)
+        {
+            
+
+            if (ComboBoxFajta.SelectedIndex != -1 && !string.IsNullOrEmpty(TextBoxFogyasztas.Text))
+            {
+                string fajta = (ComboBoxFajta.SelectedItem as ComboBoxItem)?.Content.ToString();
+                double fogyasztas = double.Parse(TextBoxFogyasztas.Text);
+
+
+                Jarmu jarmu = new Jarmu(fajta, fogyasztas);
+                jarmuvek.Add(jarmu);
+
+                ComboBoxFajta.SelectedIndex = -1;
+                TextBoxFogyasztas.Clear();
+                
+            }
+
+            else if (ComboBoxFajta.SelectedIndex == -1)
+            {
+                MessageBox.Show("Kérlek válaszd ki a jármű fajtáját!");
+            }
+
+            else if (TextBoxFogyasztas.Text == "")
+            {
+                MessageBox.Show("Kérlek add meg a jármű fogyasztását!");
+            }
+        }
+
+        private void ButtonKiir_Click(object sender, RoutedEventArgs e)
+        {
+            var csoportositasfajtaszerint = jarmuvek.GroupBy(j =>
+            {
+                if (j.Fajta == "Autó")
+                    return "Autó(k)";
+
+                if (j.Fajta == "Kerékpár")
+                    return "Kerékpár(ok)";
+
+                if (j.Fajta == "Roller")
+                    return "Roller(ek)";
+
+                return string.Empty;
+            });
+
+            string eredmeny = "Fogyasztások fajtára bontva:\n\n";
+            int töl = Convert.ToInt32(tol.Text);
+            int íg = Convert.ToInt32(ig.Text);
+            int fogy = Convert.ToInt32(TextBoxFogyasztas.Text);
+            int egyszkm = Convert.ToInt32(hatotav.Text)/100;
+
+            var autok = csoportositasfajtaszerint.FirstOrDefault(g => g.Key == "Autó(k)");
+            if (autok != null)
+            {
+
+                eredmeny += "Autók:\n";
+                foreach (var j in autok)
+                {
+
+                    int egysz_kwh = egyszkm * fogy;
+                    int maxtav_kwh = egysz_kwh * maxtav;
+                    int ar = maxtav_kwh * 70;
+                    string kekeritettar = string.Format("{0:0.00}", ar);
+                    eredmeny += j.Fajta + " " + j.Fogyasztas + "kWh " + kekeritettar + "Ft.\n" + maxtav + " " + maxtav_kwh;
+                }
+                eredmeny += "\n";
+            }
+
+            var kerekparok = csoportositasfajtaszerint.FirstOrDefault(g => g.Key == "Kerékpár(ok)");
+            if (kerekparok != null)
+            {
+                eredmeny += "Kerékpárok:\n";
+                foreach (var j in kerekparok)
+                {
+                     int egysz_kwh = egyszkm * fogy;
+                    int maxtav_kwh = egysz_kwh * maxtav;
+                    int ar = maxtav_kwh * 70;
+                    string kekeritettar = string.Format("{0:0.00}", ar);
+                    eredmeny += j.Fajta + " " + j.Fogyasztas + "kWh " + kekeritettar + "Ft.\n"+maxtav+" "+maxtav_kwh;
+                }
+                eredmeny += "\n";
+            }
+
+            var rollerek = csoportositasfajtaszerint.FirstOrDefault(g => g.Key == "Roller(ek)");
+            if (rollerek != null)
+            {
+                eredmeny += "Rollerek:\n";
+                foreach (var j in rollerek)
+                {
+                    int egysz_kwh = egyszkm * ;
+                    int maxtav_kwh = egysz_kwh * maxtav;
+                    int ar = maxtav_kwh * 70;
+                    string kekeritettar = string.Format("{0:0.00}", ar);
+                    eredmeny += j.Fajta + " " + j.Fogyasztas + "kWh " + kekeritettar + "Ft.\n" + maxtav + " " + maxtav_kwh;
+                }
+                eredmeny += "\n";
+            }
+
+            MessageBox.Show(eredmeny);
+        }
+    }
+
+    public class Jarmu
+    {
+        public string Fajta { get; set; }
+        public double Fogyasztas { get; set; }
+
+        public Jarmu(string fajta, double fogyasztas)
+        {
+            Fajta = fajta;
+            Fogyasztas = fogyasztas;
+        }
+    }
+}
+
+

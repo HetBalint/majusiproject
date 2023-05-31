@@ -1,0 +1,14 @@
+﻿<Window x:Class="májusi_progfeladat.Window2"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:májusi_progfeladat"
+        mc:Ignorable="d"
+        Title="Window2" Height="250" Width="600">
+    <Grid>
+        <ProgressBar x:Name="toltobar" HorizontalAlignment="Center" Height="63" Margin="0,128,0,0" VerticalAlignment="Top" Width="506" Minimum="0" Maximum="100" />
+        <Label Content="Töltés folyamatban..." HorizontalAlignment="Center" Height="66" Margin="0,38,0,0" VerticalAlignment="Top" Width="484" FontSize="40" FontFamily="Arial Black"/>
+
+    </Grid>
+</Window>
